@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World - Cloudflare Pages</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: white;
+            padding: 40px 60px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        #backend-message {
+            background: #f0f0f0;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            color: #555;
+        }
+        .loading {
+            color: #999;
+        }
+        button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #5a6fd6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Hello World!</h1>
+        <p>Frontend is working!</p>
+        
+        <div id="backend-message" class="loading">
+            Loading from backend...
+        </div>
+        
+        <button onclick="fetchFromBackend()">Refresh from Backend</button>
+    </div>
+
+    <script>
+        async function fetchFromBackend() {
+            const messageDiv = document.getElementById('backend-message');
+            messageDiv.textContent = 'Loading...';
+            messageDiv.className = 'loading';
+            
+            try {
+                const response = await fetch('/api/hello');
+                const data = await response.json();
+                messageDiv.textContent = `Backend says: ${data.message}`;
+                messageDiv.className = '';
+            } catch (error) {
+                messageDiv.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Fetch on page load
+        fetchFromBackend();
+    </script>
+</body>
+</html>
